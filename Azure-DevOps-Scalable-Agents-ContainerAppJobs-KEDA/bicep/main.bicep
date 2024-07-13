@@ -288,8 +288,10 @@ resource azdoagentjob 'Microsoft.App/jobs@2024-02-02-preview' = {
               secretRef: 'azp-pool'
             }
 
-            // This is a workaround for a issue that Container App Jobs doesn't detect the correct MSI Endpoint when trying to get a token from Entra ID.
-            // By setting APPSETTING_WEBSITE_SITE_NAME to whatever value the token is correctly retrieved from the right endpoint.
+            // This is a workaround for a issue that Container Apps / Container App Jobs doesn't detect the correct MSI Endpoint when trying to get a token from Entra ID using the Python SDK in Az Cli.
+            // By setting defining APPSETTING_WEBSITE_SITE_NAME environment variable and setting it to whatever value the token is correctly retrieved from the right endpoint.
+            // This workaround: https://github.com/microsoft/azure-container-apps/issues/502#issuecomment-1581163826
+            // Github Issue: https://github.com/microsoft/azure-container-apps/issues/502
             {
               name: 'APPSETTING_WEBSITE_SITE_NAME' 
               value: 'azcli-workaround'
