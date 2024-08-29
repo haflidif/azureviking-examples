@@ -12,7 +12,7 @@ This repository contains the code example I used during my demo and some example
 ### Prerequisites
 - Azure DevOps Organization
 - Azure Subscription
-- Personal Access Token (PAT) with full access to your Azure DevOps Organization.
+- Personal Access Token (PAT) with full access to your Azure DevOps Organization. [How to Create a PAT](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?wt.mc_id=SEC-MVP-5005265)
 - Terraform installed on your local machine.
 - Azure CLI installed on your local machine.
 - Be familiar on how to setup a Terraform backend for storing the Terraform state file remoetly, or use the local backend, some examples are provided down below.
