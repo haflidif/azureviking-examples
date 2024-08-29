@@ -1,0 +1,54 @@
+trigger:
+- main
+
+pool: ${agent_pool_name}
+variables: 
+  - group: ${variable_group_name}
+  - name: "tfinitcommands" 
+    value: "-backend-config=resource_group_name=$(resource_group_name) -backend-config=storage_account_name=$(storage_account_name) -backend-config=container_name=$(container_name) -backend-config=key=$(key_name)"
+  - name: "tfplancommands"
+    value: "-var-file=./terraform.tfvars -out=./terraform_plan.tfplan -input=false -detailed-exitcode"
+
+steps:
+# - script: echo Hello, world!
+#   displayName: 'Run a one-line script'
+
+- checkout: self
+
+- task: TerraformInstaller@1
+  displayName: "Install > terraform"
+  inputs:
+    terraformVersion: $(tfversion)
+
+- task: TerraformCLI@1
+  condition: succeeded()
+  displayName: "Run > terraform init"
+  inputs:
+    command: "init"
+    backendType: "azurerm"
+    backendServiceArm: "${service_connection}"
+    commandOptions: $(tfinitcommands)
+
+- task: TerraformCLI@1
+  displayName: "Run > terraform validate"
+  inputs:
+    command: "validate"
+    environmentServiceName: "${service_connection}" # Add Service Connection
+
+- task: TerraformCLI@1
+  name: "plan"
+  condition: succeeded()
+  displayName: "Run > terraform plan"
+
+  inputs:
+    command: "plan"
+    environmentServiceName: "${service_connection}" # Add Service Connection ## Service Connection
+    publishPlanResults: "terraform_plan"
+    commandOptions: $(tfplancommands)
+
+- task: TerraformCLI@1
+  displayName: "Run > terraform apply"
+  inputs:
+    command: "apply"
+    environmentServiceName: "${service_connection}" # Add Service Connection
+    commandOptions: "-auto-approve -input=false ./terraform_plan.tfplan"
