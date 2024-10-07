@@ -167,6 +167,9 @@ resource "azurerm_role_definition" "this" {
 
 data "azuread_service_principal" "this" {
   display_name = "DevOpsInfrastructure" # This is a special built in service principal (see: https://learn.microsoft.com/en-us/azure/devops/managed-devops-pools/configure-networking?view=azure-devops&tabs=azure-portal#to-check-the-devopsinfrastructure-principal-access)
+  depends_on = [ 
+    azapi_resource_action.resource_provider_registration # Ensures that the Resource Provider is registered before querying the service principal, as it's not available until the registration is complete.
+  ]
 }
 
 # Creating a Public IP and NAT Gateway for the Managed DevOps Pool, as the subnet is created with outbound traffic blocked.
