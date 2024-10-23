@@ -45,3 +45,11 @@ DESCRIPTION
     error_message = "GitHub Private Networking is currently supported in: eastus, eastus2, westus2, westus3, centralus, northcentralus, australiaeast, japaneast, francecentral, germanywestcentral, northeurope, norwayeast, swedencentral, switzerlandnorth, uksouth, southeastasia, koreacentral, please choose one of these regions."
   }
 }
+
+variable "network_address_prefixes" {
+  type = map(string)
+  default = {
+    virtual_network = "10.40.0.0/16"
+    subnet_0        = "10.40.0.0/24"
+  }
+}

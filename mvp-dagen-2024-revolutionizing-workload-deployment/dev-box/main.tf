@@ -110,14 +110,14 @@ resource "azurerm_nat_gateway_public_ip_association" "this" {
 module "virtual_network" {
   source              = "Azure/avm-res-network-virtualnetwork/azurerm"
   version             = "0.4.0"
-  address_space       = ["10.40.0.0/16"]
+  address_space       = [var.network_address_prefixes["virtual_network"]]
   location            = azurerm_resource_group.this.location
   name                = "vnet-${random_string.name.result}-${var.suffix}"
   resource_group_name = azurerm_resource_group.this.name
   subnets = {
     subnet0 = {
       name             = "subnet-${random_string.name.result}-${var.suffix}"
-      address_prefixes = ["10.40.0.0/24"]
+      address_prefixes = [var.network_address_prefixes["subnet_0"]]
       nat_gateway = {
         id = azurerm_nat_gateway.this.id
       }
