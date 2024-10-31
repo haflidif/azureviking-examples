@@ -98,6 +98,7 @@ resource "azurerm_user_assigned_identity" "this" {
   }
 }
 
+#region Federated Credentials
 # Creating a Federated Identity Credential, which will be used to authenticate the Azure DevOps Service Connection.
 resource "azurerm_federated_identity_credential" "this" {
   name                = "federated-identity-${random_string.name.result}-${var.suffix}"
@@ -187,6 +188,7 @@ data "azuread_service_principal" "this" {
   ]
 }
 
+#region Network Configuration
 # Creating a Public IP and NAT Gateway for the Managed DevOps Pool, as the subnet is created with outbound traffic blocked.
 resource "azurerm_public_ip" "this" {
   allocation_method   = "Static"
@@ -208,6 +210,7 @@ resource "azurerm_nat_gateway_public_ip_association" "this" {
   public_ip_address_id = azurerm_public_ip.this.id
 }
 
+#region Virtual Network AVM
 # Creating a Virtual Network with two subnets, one for the Managed DevOps Pool and one for the Private Endpoint.
 module "virtual_network" {
   source              = "Azure/avm-res-network-virtualnetwork/azurerm"
@@ -295,6 +298,7 @@ resource "azurerm_dev_center_project" "this" {
   resource_group_name = azurerm_resource_group.this.name
 }
 
+#region MDP Pool AVM
 # Creating Managed DevOps Pool with Private Networking using the Azure Verified Module.
 module "managed_devops_pool" {
   source                         = "Azure/avm-res-devopsinfrastructure-pool/azurerm"

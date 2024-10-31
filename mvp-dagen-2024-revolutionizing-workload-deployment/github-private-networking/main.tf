@@ -128,6 +128,7 @@ resource "azapi_resource_action" "resource_provider_registration" {
   method      = "POST"
 }
 
+#region Network Configuration
 # Creating a Public IP and NAT Gateway for the Managed DevOps Pool, as the subnet is created with outbound traffic blocked.
 resource "azurerm_public_ip" "this" {
   allocation_method   = "Static"
@@ -347,6 +348,7 @@ resource "azapi_resource" "nsg" {
   }
 }
 
+#region Virtual Network
 # Creating a Virtual Network with two subnets, one for the Managed DevOps Pool and one for the Private Endpoint.
 module "virtual_network" {
   source              = "Azure/avm-res-network-virtualnetwork/azurerm"
@@ -411,6 +413,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
   virtual_network_id    = module.virtual_network.resource_id
 }
 
+#region GitHub Network Configuration
 # GitHub Priavte Networking Configuration
 resource "azapi_resource" "gh_network_settings" {
   type                      = "GitHub.Network/networkSettings@2024-04-02"

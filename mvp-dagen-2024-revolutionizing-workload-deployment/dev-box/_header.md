@@ -4,9 +4,6 @@ I had the pleasure of speaking at the MVP Dagen 2024 event on the 23rd of Octobe
 
 This folder contains the code example I used during my demo and some examples on how you can use it in your own environment to start testing out Managed DevOps Pools.
 
-## Recording of the Presentation
-[![Watch the video](https://img.youtube.com/vi/9e6Q8PSGiXU/0.jpg)](https://www.youtube.com/watch?v=9e6Q8PSGiXU)
-
 ## How to use the code example in your own environment
 
 ### Prerequisites
@@ -52,6 +49,12 @@ terraform init
 
 6. Run `terraform plan --out .\terraform.tfplan` to see what resources will be created.
 7. Run `terraform apply .\terraform.tfplan` to create the resources.
+
+## Configure your DevBox Instance
+1. Create a DevBox Instance through the [Developer Portal](https://devportal.microsoft.com/)
+  - If you don't have access to create a DevBox Instance, make sure your user account has the 
+2. Connect to the DevBox Instance and setup your DevBox.
+
 
 ## To Clean Up
 1. Run `terraform plan --destroy --out .\terraform.tfplan` to see what resources will be deleted.
