@@ -4,9 +4,6 @@ I had the pleasure of speaking at the MVP Dagen 2024 event on the 23rd of Octobe
 
 This repository contains the code example I used during my demo and some examples on how you can use it in your own environment to start testing out Managed DevOps Pools.
 
-## Recording of the Presentation
-[![Watch the video](https://img.youtube.com/vi/9e6Q8PSGiXU/0.jpg)](https://www.youtube.com/watch?v=9e6Q8PSGiXU)
-
 ## How to use the code example in your own environment
 
 ### Prerequisites
@@ -19,7 +16,7 @@ This repository contains the code example I used during my demo and some example
 
 ### Steps
 1. Clone this repository to your local machine.
-2. Navigate to the `private-networking` directory.
+2. Navigate to the `mdp-private-networking` directory.
 3. Create the `terraform.tfvars` file with your Azure DevOps Organization URL, Personal Access Token, and suffix to use for all resources created, example below.
 
 #### terraform.tfvars

@@ -1,0 +1,2 @@
+<!-- Run `terraform-docs .\private-networking -c .\private-networking\terraform-docs.yml --output-file ..\README.md` to generate the README.md file.-->
+# Revolutionizing Workload Deployment in Azure DevOps & GitHub Actions within Private Network - MVP Dagen 2024 - 23-10-2024
