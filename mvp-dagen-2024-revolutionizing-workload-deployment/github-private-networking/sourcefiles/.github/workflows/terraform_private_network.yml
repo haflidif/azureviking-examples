@@ -1,0 +1,48 @@
+name: Terraform Workflow - Private Networking
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    name: Deploy To Terraform
+    runs-on:
+      group: ${github_runner_group}
+    env:
+      ARM_CLIENT_ID: $${{ vars.ARM_CLIENT_ID }}
+      ARM_SUBSCRIPTION_ID: $${{ vars.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: $${{ vars.ARM_TENANT_ID }}
+      ARM_USE_AZUREAD: true
+      ARM_USE_OIDC: true
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.1
+        with:
+          terraform_wrapper: false
+          terraform_version: latest
+
+      - name: Terraform Init
+        id: init
+        run: |
+          terraform init \
+          -backend-config="resource_group_name=$${{vars.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
+          -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
+          -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}"
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve
